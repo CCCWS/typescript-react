@@ -24,7 +24,6 @@ const App: React.FC = () => {
   const [todoEdit, setTodoEdit] = useState<boolean>(false);
 
   const todoAdd = (text: string) => {
-    // const temp = [...todoList];
     setTodoList((prevTodoList) => [
       ...prevTodoList,
       { id: new Date().getTime(), text: text },
@@ -40,17 +39,17 @@ const App: React.FC = () => {
   const onTodoEdit = (id: number, text: string) => {
     if (todoEdit === true) {
       const temp = [...todoList];
-      temp.forEach((item) => {
-        if (item.id === id) {
-          item.text = text;
+
+      temp.forEach((temp) => {
+        if (temp.id === id) {
+          temp.text = text;
         }
       });
-      console.log(temp);
+
+      setTodoList(temp);
     }
     setTodoEdit(!todoEdit);
   };
-
-  console.log(todoList);
 
   return (
     <>

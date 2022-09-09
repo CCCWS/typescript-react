@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "../App.css";
 
 interface ItemsProps {
-  todoEdit: boolean;
   todo: { id: number; text: string }[];
+  todoEdit: boolean;
   onDelTodo: (id: number) => void;
   onEditTodo: (id: number, text: string) => void;
 }
