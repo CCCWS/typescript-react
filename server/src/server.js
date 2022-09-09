@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const router = express.Router();
 const test = require("../Router/test");
 const port = 3001;
 
