@@ -9,6 +9,6 @@ router.get("/get", todo_1.getTodo);
 //모든 할 일 불러오기
 router.patch("/:id", todo_1.updateTodo);
 //할 일 수정, id를 받음
-router.delete("/:id");
+router.delete("/:id", todo_1.deleteTodo);
 // 받은 id에 따라 할 일 삭제
 exports.default = router;

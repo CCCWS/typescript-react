@@ -3,7 +3,10 @@
 import { RequestHandler } from "express";
 import { Todo } from "../models/todo";
 
-const TODOS: Todo[] = [];
+const TODOS: Todo[] = [
+  { id: 1, text: "TEST" },
+  { id: 2, text: "TEST" },
+];
 
 export const createTodo: RequestHandler = (req, res, next) => {
   const text = (req.body as { text: string }).text;
@@ -11,19 +14,38 @@ export const createTodo: RequestHandler = (req, res, next) => {
 
   TODOS.push(newTodo);
 
-  res.status(201).json({ message: "create success", createTodo: newTodo });
-  console.log(TODOS);
+  res.status(201).json({ message: "create success", TODOS });
 };
 
 export const getTodo: RequestHandler = (req, res, next) => {
   res.status(201).json(TODOS);
 };
 
-export const updateTodo: RequestHandler<{ id: number }> = (req, res, next) => {
-  const todoId = req.params.id; //id의 타입을 정의
+export const updateTodo: RequestHandler<{ id: string }> = (req, res, next) => {
+  //req.params로 받은값은 string타입으로 받게됨
+  //id가 number이므로 비교를 위해 형변환을 해줌
+  const todoId = parseInt(req.params.id);
   const updateText = (req.body as { text: string }).text;
+  const findTodo = TODOS.findIndex((todo) => todo.id === todoId);
 
-  if (TODOS.findIndex((todo) => todo.id === todoId) === -1) {
+  if (findTodo === -1) {
     throw new Error("not found");
+  } else {
+    TODOS[findTodo] = new Todo(todoId, updateText);
+    res.json({ message: "edit success", TODOS });
+  }
+};
+
+export const deleteTodo: RequestHandler<{ id: string }> = (req, res, next) => {
+  const todoId = parseInt(req.params.id);
+  const findTodo = TODOS.findIndex((todo) => todo.id === todoId);
+
+  if (findTodo === -1) {
+    throw new Error("not found");
+  } else {
+    // TODOS.filter((todo) => todo.id !== todoId);
+    TODOS.splice(findTodo, 1);
+
+    res.json({ message: "delete success", TODOS });
   }
 };
