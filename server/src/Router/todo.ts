@@ -1,15 +1,15 @@
 import { Router } from "express";
-import { createTodo } from "../controllers/todo";
+import { createTodo, getTodo, updateTodo } from "../controllers/todo";
 
 const router = Router();
 
 router.post("/create", createTodo);
 //할 일 추가
 
-router.get("/");
+router.get("/get", getTodo);
 //모든 할 일 불러오기
 
-router.patch("/:id");
+router.patch("/:id", updateTodo);
 //할 일 수정, id를 받음
 
 router.delete("/:id");

@@ -14,3 +14,16 @@ export const createTodo: RequestHandler = (req, res, next) => {
   res.status(201).json({ message: "create success", createTodo: newTodo });
   console.log(TODOS);
 };
+
+export const getTodo: RequestHandler = (req, res, next) => {
+  res.status(201).json(TODOS);
+};
+
+export const updateTodo: RequestHandler<{ id: number }> = (req, res, next) => {
+  const todoId = req.params.id; //id의 타입을 정의
+  const updateText = (req.body as { text: string }).text;
+
+  if (TODOS.findIndex((todo) => todo.id === todoId) === -1) {
+    throw new Error("not found");
+  }
+};
