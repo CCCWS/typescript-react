@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
@@ -15,43 +15,68 @@ interface Todo {
 const App: React.FC = () => {
   //FC > FunctionComponent
   //JSX를 return
-  const test = async () => {
-    const res = await axios.post("/api/todo/test");
-    console.log(res.data);
-  };
-
-  // test();
-
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const [todoEdit, setTodoEdit] = useState<boolean>(false);
 
-  const todoAdd = (text: string) => {
-    setTodoList((prevTodoList) => [
-      ...prevTodoList,
-      { id: new Date().getTime(), text: text },
-    ]);
+  const todoAdd = async (text: string) => {
+    const res = await axios.post("/api/todo/create", { text: text });
+    console.log(res.data);
+    onTodoGet();
   };
 
-  const onTodoDel = (id: number) => {
-    setTodoList((prevTodoList) =>
-      prevTodoList.filter((item) => item.id !== id)
-    );
+  const onTodoGet = async () => {
+    const res = await axios.get("/api/todo/get");
+    setTodoList(res.data);
   };
 
-  const onTodoEdit = (id: number, text: string) => {
+  const onTodoDel = async (id: number) => {
+    const res = await axios.delete(`/api/todo/${id}`);
+    console.log(res.data);
+    onTodoGet();
+  };
+
+  const onTodoEdit = async (id: number, text: string) => {
     if (todoEdit === true) {
-      const temp = [...todoList];
-
-      temp.forEach((temp) => {
-        if (temp.id === id) {
-          temp.text = text;
-        }
-      });
-
-      setTodoList(temp);
+      const res = await axios.patch(`/api/todo/${id}`, { text: text });
+      console.log(res.data);
+      onTodoGet();
+      setTodoEdit(!todoEdit);
+    } else {
+      setTodoEdit(!todoEdit);
     }
-    setTodoEdit(!todoEdit);
   };
+
+  useEffect(() => {
+    onTodoGet();
+  }, []);
+
+  // const todoAdd = (text: string) => {
+  //   setTodoList((prevTodoList) => [
+  //     ...prevTodoList,
+  //     { id: new Date().getTime(), text: text },
+  //   ]);
+  // };
+
+  // const onTodoDel = (id: number) => {
+  //   setTodoList((prevTodoList) =>
+  //     prevTodoList.filter((item) => item.id !== id)
+  //   );
+  // };
+
+  // const onTodoEdit = (id: number, text: string) => {
+  //   if (todoEdit === true) {
+  //     const temp = [...todoList];
+
+  //     temp.forEach((temp) => {
+  //       if (temp.id === id) {
+  //         temp.text = text;
+  //       }
+  //     });
+
+  //     setTodoList(temp);
+  //   }
+  //   setTodoEdit(!todoEdit);
+  // };
 
   return (
     <>
