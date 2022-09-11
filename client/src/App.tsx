@@ -16,9 +16,11 @@ const App: React.FC = () => {
   //FC > FunctionComponent
   //JSX를 return
   const test = async () => {
-    const res = await axios.post("/api/test/server", { id: 2 });
+    const res = await axios.post("/api/todo/test");
     console.log(res.data);
   };
+
+  // test();
 
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const [todoEdit, setTodoEdit] = useState<boolean>(false);

@@ -20,4 +20,9 @@ router.patch("/:id", updateTodo);
 router.delete("/:id", deleteTodo);
 // 받은 id에 따라 할 일 삭제
 
+router.post("/test", (req, res) => {
+  console.log(req.body);
+  return res.status(200).json({ success: true });
+});
+
 export default router;
