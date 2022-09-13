@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import "../App.css";
+import styled from "styled-components";
 
 interface Props {
   onAddTodo: (text: string) => void;
@@ -18,16 +18,43 @@ const NewTodo: React.FC<Props> = ({ onAddTodo }) => {
     }
   };
 
+  const Div = styled.div`
+    display: flex;
+    flex-direction: column;
+  `;
+
+  const Label = styled.label`
+    font-weight: 600;
+    margin-bottom: 10px;
+  `;
+
+  const Input = styled.input`
+    height: 20px;
+    border: 2px solid black;
+    margin-bottom: 10px;
+  `;
+
+  const Button = styled.button`
+    width: 100px;
+    height: 30px;
+    background-color: rgb(90, 90, 90);
+    border: 1px solid bladk;
+    cursor: pointer;
+    color: white;
+
+    &:hover {
+      border: 2px solid red;
+    }
+  `;
+
   return (
     <>
       <form onSubmit={addTodoHandler}>
-        <div id="todo-input">
-          <label htmlFor="todo-text">Todo-Text</label>
-          <input type="text" id="todo-text" ref={inputRef} />
-        </div>
-        <button id="todo-add-btn" type="submit">
-          ADD TODO
-        </button>
+        <Div>
+          <Label htmlFor="todo-text">Todo-Text</Label>
+          <Input type="text" id="todo-text" ref={inputRef} />
+        </Div>
+        <Button type="submit">ADD TODO</Button>
       </form>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../App.css";
+import styled from "styled-components";
 
 interface ItemsProps {
   todo: { id: number; text: string }[];
@@ -28,30 +28,59 @@ const TodoList: React.FC<ItemsProps> = ({
     onEditTodo(id, editText);
   };
 
+  const Ul = styled.ul`
+    padding: 0;
+  `;
+
+  const Li = styled.li`
+    list-style: none;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-bottom: 20px;
+  `;
+
+  const Button = styled.button`
+    width: 50px;
+    height: 30px;
+    background-color: rgb(90, 90, 90);
+    border: 1px solid bladk;
+    cursor: pointer;
+    color: white;
+    margin-left: 10px;
+
+    &:hover {
+      border: 2px solid red;
+    }
+  `;
+
   return (
     <>
-      <ul>
+      <Ul>
         {todo.map((item) => (
-          <li id="todo-list" key={item.id}>
+          <Li key={item.id}>
             {todoEdit && editId === item.id ? (
               <input type="text" value={editText} onChange={onEditText}></input>
             ) : (
               <>{item.text}</>
             )}
-            <div id="todo-list-btn">
-              <button
+            <div>
+              <Button
                 type="button"
                 onClick={onEditBtn.bind(null, item.id, item.text)}
               >
                 {todoEdit && editId === item.id ? "완료" : "수정"}
-              </button>
-              <button type="button" onClick={onDelTodo.bind(null, item.id)}>
+              </Button>
+              <Button type="button" onClick={onDelTodo.bind(null, item.id)}>
                 삭제
-              </button>
+              </Button>
             </div>
-          </li>
+          </Li>
         ))}
-      </ul>
+      </Ul>
     </>
   );
 };
