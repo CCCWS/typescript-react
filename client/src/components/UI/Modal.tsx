@@ -7,13 +7,10 @@ interface Props {
   title: string;
   message: string;
   modalOpen: boolean;
-  setModalOpen: Function;
+  setModalOpen: (d: boolean) => void;
 }
 
 const Modal = ({ title, message, modalOpen, setModalOpen }: Props) => {
-  const onClick = () => {
-    setModalOpen(false);
-  };
   return (
     <ModalDiv modalOpen={modalOpen}>
       <div>
@@ -26,7 +23,7 @@ const Modal = ({ title, message, modalOpen, setModalOpen }: Props) => {
         </Message>
 
         <Footer>
-          <Button innerText={"닫기"} clickFunc={onClick} />
+          <Button innerText={"닫기"} clickFunc={() => setModalOpen(false)} />
         </Footer>
       </div>
     </ModalDiv>
@@ -39,16 +36,17 @@ const ModalDiv = styled.div<{ modalOpen: boolean }>`
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 10;
 
   background-color: rgba(0, 0, 0, 0.445);
 
   display: flex;
-  /* opacity: ${(modalOpen) => (modalOpen ? "1" : "0")}; */
+  opacity: ${(props) => (props.modalOpen ? "1" : "0")};
+  z-index: ${(props) => (props.modalOpen ? "10" : "-10")};
+
   justify-content: center;
   align-items: center;
 
-  transition: all ease 1s;
+  transition: all ease 0.3s;
 
   & > :first-child {
     background-color: #ff9b9b;
