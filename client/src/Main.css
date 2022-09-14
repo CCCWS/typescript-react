@@ -4,7 +4,11 @@
 
 body {
   margin: 0;
-  padding: 20px;
+  padding: 0px;
+}
+
+html {
+  padding: 0;
 }
 
 #todo-input {

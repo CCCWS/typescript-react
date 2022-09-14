@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import styles from "./Test.module.css";
 import Wrapper from "./components/Wrapper";
+import Button from "./components/UI/Button";
+import Modal from "./components/UI/Modal";
 
 const Test = () => {
   const [bool, setBool] = useState<boolean>(false);
   const [num, setNum] = useState<number>(0);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const setNumhendler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setNum(parseInt(e.target.value));
   };
 
+  const onClick = () => {
+    setModalOpen(true);
+  };
+
   return (
-    <Wrapper>
+    <>
+      <Modal
+        title={"Modal"}
+        message={"모달창 테스트"}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
+
       <Div bool={bool} num={num}>
         <div>test</div>
       </Div>
@@ -27,10 +41,10 @@ const Test = () => {
       ></Input>
       <br />
 
-      <Button onClick={() => setBool(!bool)}>클릭</Button>
-
       <div className={styles.test}>test</div>
-    </Wrapper>
+
+      <Button innerText={"테스트"} clickFunc={onClick} />
+    </>
   );
 };
 
@@ -61,14 +75,6 @@ const Div = styled.div<Props>`
     width: 300px;
     height: 300px;
     transition: all ease 1s;
-  }
-`;
-
-const Button = styled.button`
-  width: 200px;
-
-  &:hover {
-    background-color: red;
   }
 `;
 

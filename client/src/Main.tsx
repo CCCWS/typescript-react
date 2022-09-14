@@ -3,6 +3,7 @@ import axios from "axios";
 
 import TodoList from "./components/TodoList";
 import NewTodo from "./components/NewTodo";
+import "./Main.css";
 
 interface Todo {
   id: number;
