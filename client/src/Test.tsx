@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import styles from "./Test.module.css";
 import Wrapper from "./components/Wrapper";
@@ -35,6 +35,10 @@ const Test = () => {
     setNum(0);
   };
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
+  console.log(inputRef.current?.value);
+
   return (
     <React.Fragment>
       <Modal
@@ -44,7 +48,7 @@ const Test = () => {
         setModalOpen={setModalOpen}
       />
 
-      <Div bool={bool} num={num}>
+      <Div bool={bool} num={num} ref={divRef}>
         <div>test</div>
       </Div>
 
@@ -54,8 +58,8 @@ const Test = () => {
           min={0}
           max={100}
           onChange={setNumhendler}
-          value={num || ""}
           placeholder="50이상 입력"
+          ref={inputRef}
         ></Input>
       </form>
 

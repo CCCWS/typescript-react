@@ -3,7 +3,10 @@ import Button from "./Button";
 import ReactDom from "react-dom";
 //react-dom을 이용한 portal
 //root에 랜더링하는게 아닌 index.html에서 만들어준 새로운 위치에 랜더링함
-//자식노드에 해당하는 Modal도 한번에 최상단에 랜더링이 가능
+//다른요소에 깊숙히 둘려싸여 있어도 항상 지정한 위치에 랜더링됨
+
+// ReactDom.createPortal(<랜더링할 내용 JSX로 작성>,
+// document.querySelector("(해당 위치의 ID)") as HTMLElement)
 
 interface Props {
   title: string;
