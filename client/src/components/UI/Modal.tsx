@@ -1,18 +1,27 @@
-import React from "react";
 import styled from "styled-components";
-
 import Button from "./Button";
+import ReactDom from "react-dom";
+//react-dom을 이용한 portal
+//root에 랜더링하는게 아닌 index.html에서 만들어준 새로운 위치에 랜더링함
+//자식노드에 해당하는 Modal도 한번에 최상단에 랜더링이 가능
 
 interface Props {
   title: string;
   message: string;
   modalOpen: boolean;
-  setModalOpen: (d: boolean) => void;
+  setModalOpen: (open: boolean) => void;
 }
 
 const Modal = ({ title, message, modalOpen, setModalOpen }: Props) => {
-  return (
-    <ModalDiv modalOpen={modalOpen}>
+  return ReactDom.createPortal(
+    <ModalDiv
+      modalOpen={modalOpen}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          setModalOpen(false);
+        }
+      }}
+    >
       <div>
         <Header>
           <div>{title}</div>
@@ -26,7 +35,8 @@ const Modal = ({ title, message, modalOpen, setModalOpen }: Props) => {
           <Button innerText={"닫기"} clickFunc={() => setModalOpen(false)} />
         </Footer>
       </div>
-    </ModalDiv>
+    </ModalDiv>,
+    document.querySelector("#modal-portal") as HTMLElement
   );
 };
 

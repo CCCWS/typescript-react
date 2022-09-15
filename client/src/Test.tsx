@@ -9,6 +9,10 @@ const Test = () => {
   const [bool, setBool] = useState<boolean>(false);
   const [num, setNum] = useState<number>(0);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalMassage, setModalMassage] = useState<{
+    title: string;
+    massage: string;
+  }>();
 
   const setNumhendler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -19,11 +23,23 @@ const Test = () => {
     setModalOpen(true);
   };
 
+  const onSubmitEvent = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (num <= 50) {
+      setModalMassage({
+        title: "Number Error",
+        massage: "올바른 숫자를 입력해 주세요.",
+      });
+      setModalOpen(true);
+    }
+    setNum(0);
+  };
+
   return (
-    <>
+    <React.Fragment>
       <Modal
-        title={"Modal"}
-        message={"모달창 테스트"}
+        title={modalMassage?.title || "모달창"}
+        message={modalMassage?.massage || "메세지"}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
       />
@@ -32,19 +48,23 @@ const Test = () => {
         <div>test</div>
       </Div>
 
-      <Input
-        type="number"
-        min={0}
-        max={100}
-        onChange={setNumhendler}
-        value={num || ""}
-      ></Input>
+      <form onSubmit={onSubmitEvent}>
+        <Input
+          type="number"
+          min={0}
+          max={100}
+          onChange={setNumhendler}
+          value={num || ""}
+          placeholder="50이상 입력"
+        ></Input>
+      </form>
+
       <br />
 
       <div className={styles.test}>test</div>
 
       <Button innerText={"테스트"} clickFunc={onClick} />
-    </>
+    </React.Fragment>
   );
 };
 
