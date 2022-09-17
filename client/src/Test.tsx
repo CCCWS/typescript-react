@@ -4,6 +4,7 @@ import styles from "./Test.module.css";
 import Wrapper from "./components/Wrapper";
 import Button from "./components/UI/Button";
 import Modal from "./components/UI/Modal";
+import useAxios from "./hooks/useAxios";
 
 const Test = () => {
   const [bool, setBool] = useState<boolean>(false);
@@ -13,6 +14,7 @@ const Test = () => {
     title: string;
     massage: string;
   }>();
+
 
   const setNumhendler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -37,7 +39,6 @@ const Test = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
-  console.log(inputRef.current?.value);
 
   return (
     <React.Fragment>
@@ -63,9 +64,7 @@ const Test = () => {
         ></Input>
       </form>
 
-      <br />
-
-      <div className={styles.test}>test</div>
+      
 
       <Button innerText={"테스트"} clickFunc={onClick} />
     </React.Fragment>

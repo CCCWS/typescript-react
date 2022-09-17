@@ -10,7 +10,7 @@ interface Todo {
   text: string;
 }
 
-const Main: React.FC = () => {
+const Main = () => {
   //FC > FunctionComponent
   //JSX를 return
   const [todoList, setTodoList] = useState<Todo[]>([]);
