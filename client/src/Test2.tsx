@@ -1,30 +1,42 @@
-import React from "react";
-import useCounter from "./hooks/useCounter";
+import React, { useEffect } from "react";
+import Timer from "./components/UI/Timer";
+import useAxios from "./hooks/useAxios";
 import useInput from "./hooks/useInput";
 
 const Test2 = () => {
   const input1 = useInput("");
   const input2 = useInput("");
+  const id = useInput("");
 
-  const count1 = useCounter("-");
-  const count2 = useCounter("+");
+  const [data, loading] = useAxios(
+    `https://jsonplaceholder.typicode.com/todos/${id.data}`,
+    id.test
+  );
 
   return (
     <div>
-      <input value={input1.data} onChange={input1.onChange}></input>
-      <button onClick={input1.onAlert}>input1</button>
+      <form onSubmit={id.onSubmit}>
+        <input value={id.data} onChange={id.onChange}></input>
+        <button type="submit" onSubmit={id.onSubmit}>
+          input1
+        </button>
+      </form>
 
       <br />
 
-      <input value={input2.data} onChange={input2.onChange}></input>
-      <button onClick={input2.onAlert}>input2</button>
+      {loading ? (
+        <div>Loding...</div>
+      ) : (
+        <div>
+          {data.id} {data.title}
+        </div>
+      )}
 
       <br />
 
-      <div>{count1.count}</div>
-      <div>{count2.count}</div>
+      <Timer />
     </div>
   );
 };
 
-export default Test2;
+export default React.memo(Test2);

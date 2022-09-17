@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
-interface Props {
-  type: string;
-  url: string;
+interface Data {
+  completed?: boolean;
+  id?: number;
+  title?: string;
+  userId?: number;
 }
 
-const useAxios = (type: string, url: string) => {
-  const [value, setValue] = useState();
-
-  useEffect(() => {
-    if (type === "get") {
-      get();
-    }
-    if (type === "post") {
-    }
-
-    if (type === "delete") {
-    }
-
-    if (type === "patch") {
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+const useAxios = (url: string, id: boolean) => {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>();
 
   const get = async () => {
-    const res = await axios.get(url);
-    setValue(res.data);
+    try {
+      setLoading(true);
+      const res = await axios.get(url);
+      setData(res.data);
+      setLoading(false);
+    } catch (err) {
+      setData({ id: null, title: "error" });
+      setLoading(false);
+    }
   };
 
-  return value;
+  useEffect(() => {
+    get();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  return [data, loading];
 };
 
 export default useAxios;
