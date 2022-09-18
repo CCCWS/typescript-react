@@ -11,10 +11,8 @@ const TODOS: Todo[] = [
 export const createTodo: RequestHandler = (req, res, next) => {
   const text = (req.body as { text: string }).text;
   const newTodo = new Todo(new Date().getTime(), text);
-
   TODOS.push(newTodo);
-
-  res.status(201).json({ message: "create success", TODOS });
+  res.status(201).json(TODOS);
 };
 
 export const getTodo: RequestHandler = (req, res, next) => {
@@ -32,7 +30,7 @@ export const updateTodo: RequestHandler<{ id: string }> = (req, res, next) => {
     throw new Error("not found");
   } else {
     TODOS[findTodo] = new Todo(todoId, updateText);
-    res.json({ message: "edit success", TODOS });
+    res.status(201).json(TODOS);
   }
 };
 
@@ -46,6 +44,6 @@ export const deleteTodo: RequestHandler<{ id: string }> = (req, res, next) => {
     // TODOS.filter((todo) => todo.id !== todoId);
     TODOS.splice(findTodo, 1);
 
-    res.json({ message: "delete success", TODOS });
+    res.json(TODOS);
   }
 };

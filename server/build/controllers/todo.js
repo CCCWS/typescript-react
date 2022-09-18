@@ -10,7 +10,7 @@ const createTodo = (req, res, next) => {
     const text = req.body.text;
     const newTodo = new todo_1.Todo(new Date().getTime(), text);
     TODOS.push(newTodo);
-    res.status(201).json({ message: "create success", TODOS });
+    res.status(201).json(TODOS);
 };
 exports.createTodo = createTodo;
 const getTodo = (req, res, next) => {
@@ -28,7 +28,7 @@ const updateTodo = (req, res, next) => {
     }
     else {
         TODOS[findTodo] = new todo_1.Todo(todoId, updateText);
-        res.json({ message: "edit success", TODOS });
+        res.status(201).json(TODOS);
     }
 };
 exports.updateTodo = updateTodo;
@@ -41,7 +41,7 @@ const deleteTodo = (req, res, next) => {
     else {
         // TODOS.filter((todo) => todo.id !== todoId);
         TODOS.splice(findTodo, 1);
-        res.json({ message: "delete success", TODOS });
+        res.json(TODOS);
     }
 };
 exports.deleteTodo = deleteTodo;
