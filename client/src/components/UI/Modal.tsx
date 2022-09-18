@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import styled from "styled-components";
 import Button from "./Button";
 import ReactDom from "react-dom";
@@ -16,6 +18,18 @@ interface Props {
 }
 
 const Modal = ({ title, message, modalOpen, setModalOpen }: Props) => {
+  useEffect(() => {
+    if (modalOpen === true) {
+      const escapeCheck = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setModalOpen(false);
+        }
+      };
+      window.addEventListener("keydown", escapeCheck);
+      return () => window.removeEventListener("keydown", escapeCheck);
+    }
+  }, [modalOpen, setModalOpen]);
+
   return ReactDom.createPortal(
     <ModalDiv
       modalOpen={modalOpen}

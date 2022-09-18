@@ -6,7 +6,7 @@ interface ItemsProps {
   todo: { id: number; text: string }[];
   todoEdit: boolean;
   del: (url: string, id: number) => void;
-  edit: (url: string, id: number, text: string) => void;
+  edit: (url: string, id: number, editText: string, nowText: string) => void;
 }
 
 const TodoList: React.FC<ItemsProps> = ({
@@ -19,6 +19,7 @@ const TodoList: React.FC<ItemsProps> = ({
 }) => {
   const [editText, setEditText] = useState<string>("");
   const [editId, setEditId] = useState<number>();
+  const [nowText, setNowText] = useState<string>("");
 
   const onEditText = (e: any) => {
     setEditText(e.target.value);
@@ -27,7 +28,7 @@ const TodoList: React.FC<ItemsProps> = ({
   const onEditBtn = (id: number, text: string) => {
     setEditId(id);
     setEditText(text);
-    edit("/api/todo", id, editText);
+    edit("/api/todo", id, editText, nowText);
   };
 
   return (
@@ -39,25 +40,22 @@ const TodoList: React.FC<ItemsProps> = ({
           {todo.map((item) => (
             <Li key={item.id}>
               {todoEdit && editId === item.id ? (
-                <input
-                  type="text"
-                  value={editText}
-                  onChange={onEditText}
-                ></input>
+                <input type="text" value={editText} onChange={onEditText} />
               ) : (
                 <>{item.text}</>
               )}
+
               <div>
                 <Button
                   type="button"
-                  onClick={onEditBtn.bind(null, item.id, item.text)}
+                  onClick={() => {
+                    setNowText(item.text);
+                    onEditBtn(item.id, item.text);
+                  }}
                 >
                   {todoEdit && editId === item.id ? "완료" : "수정"}
                 </Button>
-                <Button
-                  type="button"
-                  onClick={del.bind(null, "/api/todo", item.id)}
-                >
+                <Button type="button" onClick={() => del("/api/todo", item.id)}>
                   삭제
                 </Button>
               </div>
@@ -75,6 +73,8 @@ const Ul = styled.ul`
 
 const Li = styled.li`
   list-style: none;
+  margin: auto;
+  width: 500px;
   height: 50px;
   display: flex;
   align-items: center;

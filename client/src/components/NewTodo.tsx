@@ -1,32 +1,64 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
-import useAxios from "../hooks/useAxios";
+
+import useModal from "../hooks/useModal";
+import Modal from "./UI/Modal";
 
 interface Props {
   add: (url: string, text: string) => void;
 }
 
 const NewTodo: React.FC<Props> = ({ add }: Props) => {
+  const { openModal, contents, setOpenModal, setContents } = useModal();
+
   const inputRef = useRef<HTMLInputElement>(null);
+
   //ref가 들어갈 태그의 타입을 선언
   //랜더링이 되고나서 연결이 되기때문에 초기값은 null
 
   const addTodoHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputRef.current!.value.length !== 0) {
+    if (
+      inputRef.current!.value.length > 0 &&
+      inputRef.current!.value.length <= 10
+    ) {
       add("/api/todo/create", inputRef.current!.value);
       inputRef.current!.value = "";
+    } else {
+      if (inputRef.current!.value.length === 0) {
+        setContents({
+          title: "Todo 입력 에러",
+          message: "아무것도 입력하지 않았습니다.",
+        });
+        setOpenModal(true);
+      }
+
+      if (inputRef.current!.value.length > 10) {
+        setContents({
+          title: "Todo 입력 에러",
+          message: "글자수가 너무 많습니다.",
+        });
+        setOpenModal(true);
+      }
     }
   };
 
   return (
     <>
+      <Modal
+        title={contents.title}
+        message={contents.message}
+        modalOpen={openModal}
+        setModalOpen={setOpenModal}
+      />
       <form onSubmit={addTodoHandler}>
         <Div>
-          <Label htmlFor="todo-text">Todo-Text</Label>
-          <Input type="text" id="todo-text" ref={inputRef} />
+          <Label htmlFor="todo-text">Todo-List</Label>
+          <div>
+            <Input type="text" id="todo-text" ref={inputRef} />
+            <Button type="submit">추가</Button>
+          </div>
         </Div>
-        <Button type="submit">ADD TODO</Button>
       </form>
     </>
   );
@@ -35,22 +67,29 @@ const NewTodo: React.FC<Props> = ({ add }: Props) => {
 const Div = styled.div`
   display: flex;
   flex-direction: column;
+
+  & div {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+  }
 `;
 
 const Label = styled.label`
   font-weight: 600;
+  margin: auto;
   margin-bottom: 10px;
+  margin-top: 10px;
 `;
 
 const Input = styled.input`
   width: 200px;
   height: 30px;
   border: 2px solid black;
-  margin-bottom: 10px;
 `;
 
 const Button = styled.button`
-  width: 100px;
+  width: 70px;
   height: 30px;
   background-color: rgb(90, 90, 90);
   border: 1px solid bladk;
@@ -58,7 +97,7 @@ const Button = styled.button`
   color: white;
 
   &:hover {
-    border: 2px solid red;
+    background-color: rgba(90, 90, 90, 0.5);
   }
 `;
 

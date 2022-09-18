@@ -50,10 +50,17 @@ const useAxios = () => {
   }, []);
 
   const edit = useCallback(
-    async (url: string, id: number, text: string): Promise<void> => {
+    async (
+      url: string,
+      id: number,
+      editText: string,
+      nowText: string
+    ): Promise<void> => {
       if (todoEdit === true) {
-        const res = await axios.patch(`${url}/${id}`, { text: text });
-        setData(res.data);
+        if (editText !== nowText) {
+          const res = await axios.patch(`${url}/${id}`, { text: editText });
+          setData(res.data);
+        }
       }
       setTodoEdit(!todoEdit);
     },

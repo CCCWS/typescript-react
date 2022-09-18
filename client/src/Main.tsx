@@ -2,8 +2,8 @@ import { useEffect } from "react";
 
 import TodoList from "./components/TodoList";
 import NewTodo from "./components/NewTodo";
-import "./Main.css";
 import useAxios from "./hooks/useAxios";
+import "./Main.css";
 
 const Main = () => {
   //FC > FunctionComponent
