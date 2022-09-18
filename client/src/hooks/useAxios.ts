@@ -15,9 +15,9 @@ interface Props {
 }
 
 const useAxios = () => {
-  const [todoEdit, setTodoEdit] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<{ id: number; text: string }[]>([]);
+  const [todoEdit, setTodoEdit] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [data, setData] = useState<{ id: number; text: string | any }[]>([]);
 
   const get = useCallback(async (url: string): Promise<void> => {
     try {

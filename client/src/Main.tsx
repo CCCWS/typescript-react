@@ -8,23 +8,21 @@ import useAxios from "./hooks/useAxios";
 const Main = () => {
   //FC > FunctionComponent
   //JSX를 return
-  const todos = useAxios();
-
-  console.log(todos);
+  const { data, loading, todoEdit, get, add, del, edit } = useAxios();
 
   useEffect(() => {
-    todos.get("/api/todo/get");
-  }, []);
+    get("/api/todo/get");
+  }, [get]);
 
   return (
     <>
-      <NewTodo add={todos.add} />
+      <NewTodo add={add} />
       <TodoList
-        loading={todos.loading}
-        todo={todos.data}
-        todoEdit={todos.todoEdit}
-        del={todos.del}
-        edit={todos.edit}
+        loading={loading}
+        todo={data}
+        todoEdit={todoEdit}
+        del={del}
+        edit={edit}
       />
     </>
   );
