@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const useTheme = () => {
-  const getLocalStorageData = localStorage.getItem("theme")
-    ? localStorage.getItem("theme")
-    : "light";
+  const getLocalStorageData = localStorage.getItem("theme");
+  const initTheme = getLocalStorageData ? getLocalStorageData : "light";
 
-  const [themeMode, setThemeMode] = useState<string>(getLocalStorageData!);
+  const [themeMode, setThemeMode] = useState<string>(initTheme);
 
-  const onSetTheme = () => {
+  const onSetTheme = useCallback(() => {
     if (themeMode === "light") {
       setThemeMode("dark");
       localStorage.setItem("theme", "dark");
@@ -17,7 +16,7 @@ const useTheme = () => {
       setThemeMode("light");
       localStorage.setItem("theme", "light");
     }
-  };
+  }, [themeMode]);
 
   return { themeMode, onSetTheme };
 };

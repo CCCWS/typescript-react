@@ -5,10 +5,11 @@ import useModal from "../hooks/useModal";
 import Modal from "./UI/Modal";
 
 interface Props {
+  themeMode: string;
   add: (url: string, text: string) => void;
 }
 
-const NewTodo: React.FC<Props> = ({ add }: Props) => {
+const NewTodo: React.FC<Props> = ({ themeMode, add }: Props) => {
   const { openModal, contents, setOpenModal, setContents } = useModal();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -53,10 +54,14 @@ const NewTodo: React.FC<Props> = ({ add }: Props) => {
       />
       <form onSubmit={addTodoHandler}>
         <Div>
-          <Label htmlFor="todo-text">Todo-List</Label>
+          <Label htmlFor="todo-text" mode={themeMode}>
+            Todo-List
+          </Label>
           <div>
-            <Input type="text" id="todo-text" ref={inputRef} />
-            <Button type="submit">추가</Button>
+            <Input type="text" id="todo-text" ref={inputRef} mode={themeMode} />
+            <Button type="submit" mode={themeMode}>
+              추가
+            </Button>
           </div>
         </Div>
       </form>
@@ -75,24 +80,25 @@ const Div = styled.div`
   }
 `;
 
-const Label = styled.label`
+const Label = styled.label<{ mode: string }>`
   font-weight: 600;
   margin: auto;
   margin-bottom: 10px;
   margin-top: 10px;
+  color: ${(props) => (props.mode === "light" ? "black" : "white")};
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ mode: string }>`
   width: 200px;
   height: 30px;
-  border: 2px solid black;
+  border: 2px solid ${(props) => (props.mode === "light" ? "black" : "white")};
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ mode: string }>`
   width: 70px;
   height: 30px;
   background-color: rgb(90, 90, 90);
-  border: 1px solid bladk;
+  border: 1px solid ${(props) => (props.mode === "light" ? "black" : "white")};
   cursor: pointer;
   color: white;
 

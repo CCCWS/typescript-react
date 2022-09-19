@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 interface ItemsProps {
+  themeMode: string;
   loading: boolean;
   todo: { id: number; text: string }[];
   todoEdit: boolean;
@@ -11,6 +12,7 @@ interface ItemsProps {
 
 const TodoList: React.FC<ItemsProps> = ({
   //props로 받을 데이터의 타입을 명시해줌
+  themeMode,
   loading,
   todo,
   todoEdit,
@@ -38,7 +40,7 @@ const TodoList: React.FC<ItemsProps> = ({
       ) : (
         <Ul>
           {todo.map((item) => (
-            <Li key={item.id}>
+            <Li key={item.id} mode={themeMode}>
               {todoEdit && editId === item.id ? (
                 <input type="text" value={editText} onChange={onEditText} />
               ) : (
@@ -71,7 +73,7 @@ const Ul = styled.ul`
   padding: 0;
 `;
 
-const Li = styled.li`
+const Li = styled.li<{ mode: string }>`
   list-style: none;
   margin: auto;
   width: 500px;
@@ -82,6 +84,9 @@ const Li = styled.li`
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin-bottom: 20px;
+  background-color: ${(props) =>
+    props.mode === "light" ? "white" : "#8a8a8a"};
+  color: ${(props) => (props.mode === "light" ? "black" : "white")};
 `;
 
 const Button = styled.button`

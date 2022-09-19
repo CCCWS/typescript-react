@@ -1,10 +1,15 @@
 import styled from "styled-components";
 import ReactDom from "react-dom";
 import { BulbOutlined, BulbFilled } from "@ant-design/icons";
-import useTheme from "../../hooks/useTheme";
+import React from "react";
 
-const ThemeBtn = () => {
-  const { themeMode, onSetTheme } = useTheme();
+interface Props {
+  themeMode: string;
+  onSetTheme: () => void;
+}
+
+const ThemeBtn = ({ themeMode, onSetTheme }: Props) => {
+  // const { themeMode, onSetTheme } = useTheme();
 
   return ReactDom.createPortal(
     <Theme>
@@ -75,4 +80,4 @@ const Toggle = styled.span<{ mode: string }>`
   }
 `;
 
-export default ThemeBtn;
+export default React.memo(ThemeBtn);
