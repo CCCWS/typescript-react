@@ -2,6 +2,8 @@ import { useEffect } from "react";
 
 import TodoList from "./components/TodoList";
 import NewTodo from "./components/NewTodo";
+import ThemeBtn from "./components/UI/ThemeBtn";
+
 import useAxios from "./hooks/useAxios";
 import "./Main.css";
 
@@ -16,6 +18,7 @@ const Main = () => {
 
   return (
     <>
+      <ThemeBtn />
       <NewTodo add={add} />
       <TodoList
         loading={loading}
