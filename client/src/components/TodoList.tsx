@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import TransitionGroup from "react-transition-group/TransitionGroup";
+import CSSTransition from "react-transition-group/CSSTransition";
+
 import styled from "styled-components";
 
 interface ItemsProps {
@@ -38,32 +41,48 @@ const TodoList: React.FC<ItemsProps> = ({
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <Ul>
-          {todo.map((item) => (
-            <Li key={item.id} mode={themeMode}>
-              {todoEdit && editId === item.id ? (
-                <input type="text" value={editText} onChange={onEditText} />
-              ) : (
-                <>{item.text}</>
-              )}
+        <>
+          <TransitionGroup component={Ul}>
+            {todo.map((item) => (
+              <CSSTransition
+                key={item.id}
+                timeout={500}
+                classNames={{
+                  enter: "fade-enter",
+                  enterActive: "fade-enter-active",
+                  exit: "fade-exit",
+                  exitActive: "fade-exit-active",
+                }}
+              >
+                <Li mode={themeMode}>
+                  {todoEdit && editId === item.id ? (
+                    <input type="text" value={editText} onChange={onEditText} />
+                  ) : (
+                    <>{item.text}</>
+                  )}
 
-              <div>
-                <Button
-                  type="button"
-                  onClick={() => {
-                    setNowText(item.text);
-                    onEditBtn(item.id, item.text);
-                  }}
-                >
-                  {todoEdit && editId === item.id ? "완료" : "수정"}
-                </Button>
-                <Button type="button" onClick={() => del("/api/todo", item.id)}>
-                  삭제
-                </Button>
-              </div>
-            </Li>
-          ))}
-        </Ul>
+                  <div>
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        setNowText(item.text);
+                        onEditBtn(item.id, item.text);
+                      }}
+                    >
+                      {todoEdit && editId === item.id ? "완료" : "수정"}
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => del("/api/todo", item.id)}
+                    >
+                      삭제
+                    </Button>
+                  </div>
+                </Li>
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+        </>
       )}
     </>
   );
@@ -76,12 +95,12 @@ const Ul = styled.ul`
 const Li = styled.li<{ mode: string }>`
   list-style: none;
   margin: auto;
-  width: 500px;
+  width: 100%;
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 1.5rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin-bottom: 20px;
   background-color: ${(props) =>
@@ -90,13 +109,13 @@ const Li = styled.li<{ mode: string }>`
 `;
 
 const Button = styled.button`
-  width: 50px;
-  height: 30px;
+  width: 3rem;
+  height: 1.5rem;
   background-color: rgb(90, 90, 90);
   border: 1px solid bladk;
   cursor: pointer;
   color: white;
-  margin-left: 10px;
+  margin-left: 0.5rem;
 
   &:hover {
     border: 2px solid red;

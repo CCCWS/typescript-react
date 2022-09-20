@@ -64,7 +64,7 @@ const Div = styled.div<{ mode: string }>`
 const Toggle = styled.span<{ mode: string }>`
   background-color: #808080;
   position: absolute;
-  left: 0.5rem;
+  left: 10px;
   width: 25px;
   height: 25px;
   border-radius: 30px;
@@ -72,7 +72,7 @@ const Toggle = styled.span<{ mode: string }>`
   transition: all ease 0.5s;
 
   transform: ${(props) =>
-    props.mode === "light" ? "translateX(0)" : "translateX(2.5rem)"};
+    props.mode === "light" ? "translateX(0)" : "translateX(35px)"};
 
   &:hover {
     cursor: pointer;

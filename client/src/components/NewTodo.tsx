@@ -90,13 +90,13 @@ const Label = styled.label<{ mode: string }>`
 
 const Input = styled.input<{ mode: string }>`
   width: 200px;
-  height: 30px;
+  height: 1.5rem;
   border: 2px solid ${(props) => (props.mode === "light" ? "black" : "white")};
 `;
 
 const Button = styled.button<{ mode: string }>`
-  width: 70px;
-  height: 30px;
+  width: 3rem;
+  height: 1.5rem;
   background-color: rgb(90, 90, 90);
   border: 1px solid ${(props) => (props.mode === "light" ? "black" : "white")};
   cursor: pointer;
