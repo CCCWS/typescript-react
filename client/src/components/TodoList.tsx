@@ -44,16 +44,7 @@ const TodoList: React.FC<ItemsProps> = ({
         <>
           <TransitionGroup component={Ul}>
             {todo.map((item) => (
-              <CSSTransition
-                key={item.id}
-                timeout={500}
-                classNames={{
-                  enter: "fade-enter",
-                  enterActive: "fade-enter-active",
-                  exit: "fade-exit",
-                  exitActive: "fade-exit-active",
-                }}
-              >
+              <CSSTransition key={item.id} timeout={500} classNames={"fade"}>
                 <Li mode={themeMode}>
                   {todoEdit && editId === item.id ? (
                     <input type="text" value={editText} onChange={onEditText} />
@@ -96,11 +87,11 @@ const Li = styled.li<{ mode: string }>`
   list-style: none;
   margin: auto;
   width: 100%;
-  height: 50px;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem;
+  padding: 1rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin-bottom: 20px;
   background-color: ${(props) =>
